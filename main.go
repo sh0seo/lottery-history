@@ -1,13 +1,15 @@
 package main
 
 import (
-	"fmt"
 	_ "io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
+	"os"
+	"strconv"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/djimenez/iconv-go"
 )
 
 const (
@@ -17,6 +19,7 @@ const (
 	`
 )
 
+// Lottery data
 type Lottery struct {
 	Times   int
 	Numbers string
@@ -24,16 +27,16 @@ type Lottery struct {
 	Reward  string
 }
 
+var (
+	datas []Lottery
+)
+
 func main() {
 	const TargetURL = "https://dhlottery.co.kr/gameResult.do?method=allWin"
 	const TableFileName = "table.md"
 	// 1. get envirionment
 
 	// 2. 서버 요청
-	// v := url.Values{}
-	// v.Add("nowPage", "1")
-	// v.Add("drwNoStart", "1")
-	// v.Add("drwNoEnd", "1000")
 	res, err := http.PostForm(TargetURL, url.Values{
 		"nowPage":    {"1"},
 		"drwNoStart": {"1"},
@@ -54,21 +57,41 @@ func main() {
 		log.Fatal(err)
 	}
 
-	doc.Find("table.tbl_data.tbl_data_col tbody tr").Children().Each(func(i int, s *goquery.Selection) {
-		if i%8 <= 3 {
-			v := s.Text()
-			fmt.Printf("%d %s\n", i, v)
-		}
-		// if s.Nodes[0].Attr != nil {
-		// fmt.Printf("%d %s %s\n", i, v, s.Nodes[0].Attr)
-		//} else {
-		//}
-	})
-	// body, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	//		log.Fatal(err)
-	// }
-	// log.Printf(string(body))
+	datas = make([]Lottery, 10, 10)
 
-	// 4. 파싱 대상 md 파일로 저장
+	var data Lottery
+	doc.Find("table.tbl_data.tbl_data_col tbody tr").Children().Each(func(i int, s *goquery.Selection) {
+		v, _ := iconv.ConvertString(s.Text(), "euc-kr", "utf-8")
+		switch i % 8 {
+		case 0:
+			d, _ := strconv.Atoi(v)
+			data.Times = d
+		case 1:
+			data.Numbers = v
+		case 2:
+			d, _ := strconv.Atoi(v)
+			data.Winners = d
+		case 3:
+			data.Reward = v
+			datas = append(datas, data)
+		}
+	})
+
+	// 4. sorting
+	// 5. 파싱 대상 md 파일로 저장
+	saveTableFile(datas)
+}
+
+func saveTableFile(datas []Lottery) {
+	table, err := os.OpenFile(TableFileName, os.RDWR|os.O_TRUNC, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer table.Close()
+	table.WriteString(head)
+
+	for _, d := range datas {
+		table.WriteString("| %s | %d | %d | %d |\n")
+	}
+
 }
