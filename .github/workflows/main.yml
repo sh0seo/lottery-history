@@ -35,3 +35,4 @@ jobs:
           user_name: sh0seo
           user_email: ssh0702@gmail.com 
           commit_message: "update auto"
+          enable_jekyll: true 
