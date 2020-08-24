@@ -17,14 +17,14 @@ jobs:
         go-version: "1.13"
     
     - name: git clone, run 
-    - run: |
+      run: |
         git clone -b gh-pages https://github.com/sh0seo/lottery-history gh-pages
         go run main.go
     
     - name: copy and push
       env:
         GITHUB_USER: "sh0seo"
-    - run: |
+      run: |
         cp index.md gh-pages/index.md
         cd gh-pages
         git config user.name "${GITHUB_USER}"
