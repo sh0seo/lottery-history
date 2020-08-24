@@ -1,4 +1,4 @@
-{% include .html %}
+{% include head.html %}
 
 ## 로또 당첨자 번호
 
