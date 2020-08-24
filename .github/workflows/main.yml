@@ -26,12 +26,9 @@ jobs:
       with:
         source: index.md
         target: gh-pages/index.md
-    
+      
     - name: push
-      env:
-        GITHUB_USER: "sh0seo"
-      run: |
-        cd gh-pages
-        git config user.name "${GITHUB_USER}"
-        git commit -am "Auto update"
-        git push
+      uses: peaceiris/actions-github-pages@v3.1.12
+      with:
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./gh-pages
