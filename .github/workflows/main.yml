@@ -2,24 +2,29 @@ name: update
 
 on:
   push:
-    branches: master
+    branches: [ master ]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2.3.2
       with:
         ref: "master"
-    - uses: actions/setup-go@v1
+    
+    - name: go setup
+    - uses: actions/setup-go@v2.1.2
       with:
         go-version: "1.13"
+    
+    - name: git clone, run 
     - run: |
         git clone -b gh-pages https://github.com/sh0seo/lottery-history gh-pages
         go run main.go
-    - name: update the list
+    
+    - name: copy and push
       env:
         GITHUB_USER: "sh0seo"
-    - run: |  
+    - run: |
         cp index.md gh-pages/index.md
         cd gh-pages
         git config user.name "${GITHUB_USER}"
