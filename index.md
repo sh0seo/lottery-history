@@ -5,6 +5,7 @@ You can use the [editor on GitHub](https://github.com/sh0seo/lottery-history/edi
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### 로또 당첨자 번호
+
 | 회차 | 당청번호 | 1등 당첨자 수 | 1등 당첨금(원) |
 | ---- | ------- | ------------ | ------------- |
 | 925 | 13, 24, 32, 34, 39, 42 | 12 | 1,771,080,532원 |
