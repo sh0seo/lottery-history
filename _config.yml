@@ -1,6 +1,7 @@
 theme: jekyll-theme-cayman
 
 site.name: 로또당첨번호
-
+site.title: 로또당첨번호검색
+site.description: 역대 로또당첨번호를 검색할 수 있는 사이트입니다.
 show_downloads: false
 google_analytics: UA-156450601-2
