@@ -21,11 +21,16 @@ jobs:
         git clone -b gh-pages https://github.com/sh0seo/lottery-history gh-pages
         go run main.go
     
-    - name: copy and push
+    - name: Copy file
+      uses: canastro/copy-action@0.0.2
+      with:
+        source: index.md
+        target: gh-pages/index.md
+    
+    - name: push
       env:
         GITHUB_USER: "sh0seo"
       run: |
-        cp index.md gh-pages/index.md
         cd gh-pages
         git config user.name "${GITHUB_USER}"
         git commit -am "Auto update"
