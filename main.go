@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -14,7 +15,14 @@ import (
 )
 
 const (
-	head = `| 회차 | 당청번호 | 1등 당첨자 수 | 1등 당첨금(원) |
+	head = `---
+layout: default
+title: {{ site.name }}
+---
+
+## 로또 당첨자 번호
+
+| 회차 | 당청번호 | 1등 당첨자 수 | 1등 당첨금(원) |
 | ---- | ------- | ------------ | ------------- |
 `
 )
@@ -69,7 +77,7 @@ func main() {
 				d, _ := strconv.Atoi(v)
 				data.Times = d
 			case 1:
-				data.Numbers = v
+				data.Numbers = strings.ReplaceAll(v, " ", "")
 			case 2:
 				d, _ := strconv.Atoi(v)
 				data.Winners = d
@@ -106,4 +114,6 @@ func saveTableFile(datas []Lottery) {
 			table.WriteString(fmt.Sprintf("| %d | %s | %d | %s |\n", d.Times, d.Numbers, d.Winners, d.Reward))
 		}
 	}
+
+	table.WriteString(fmt.Sprintf("\nLast Automatic Update: %s\n", time.Now().Format(time.RFC3339)))
 }
