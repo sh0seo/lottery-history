@@ -1,7 +1,8 @@
 theme: jekyll-theme-cayman
 
-site.name: 역대로또당첨번호
-site.title: 역대로또당첨번호
-site.description: 역대로또당첨번호를 검색할 수 있는 사이트입니다.
+name: 역대로또당첨번호
+title: 역대로또당첨번호
+description: 역대로또당첨번호를 검색할 수 있는 사이트입니다.
+
 show_downloads: false
 google_analytics: UA-156450601-2
