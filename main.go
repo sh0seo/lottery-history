@@ -102,7 +102,7 @@ func main() {
 }
 
 func saveTableFile(datas []Lottery) {
-	table, err := os.OpenFile("table.md", os.O_RDWR|os.O_TRUNC, 0666)
+	table, err := os.OpenFile("index.md", os.O_RDWR|os.O_TRUNC, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
